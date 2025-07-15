@@ -8,7 +8,7 @@ const BLOG_POSTS = [
     excerpt: "Discover the top organic foods that can help strengthen your immune system and keep you healthy all year round.",
     image: "/assets/b1.jpg",
     date: "June 10, 2025",
-    author: "Hamza Hafeez",
+    author: "Vigours Team",
     category: "Wellness"
   },
   {
@@ -17,7 +17,7 @@ const BLOG_POSTS = [
     excerpt: "Learn how to build a sustainable, healthy grocery shopping routine with our expert tips and tricks.",
     image: "/assets/b2.jpg",
     date: "June 5, 2025",
-    author: "Hamza Hafeez",
+    author: "Vigours Team",
     category: "Lifestyle"
   },
   {
@@ -26,7 +26,7 @@ const BLOG_POSTS = [
     excerpt: "Explore why farm-to-table is more than a trend and how it benefits your health and the planet.",
     image: "/assets/b3.jpg",
     date: "May 28, 2025",
-    author: "Hamza Hafeez",
+    author: "Vigours Team",
     category: "Sustainability"
   },
   {
@@ -35,7 +35,7 @@ const BLOG_POSTS = [
     excerpt: "Quick, delicious, and organic! Try these easy recipes for a healthy dinner in under 30 minutes.",
     image: "/assets/b3.jpg",
     date: "May 20, 2025",
-    author: "Hamza Hafeez",
+    author: "Vigours Team",
     category: "Recipes"
   },
 ];

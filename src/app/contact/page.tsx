@@ -43,7 +43,7 @@ export default function Contact() {
             </div>
             <div className="flex items-center gap-3 text-gray-700">
               <EnvelopeIcon className="w-6 h-6 text-emerald-500" />
-              <span>support@hamzagrocery.com</span>
+              <span>vigoursorganic@gmail.com</span>
             </div>
             <div className="flex items-center gap-3 text-gray-700">
               <PhoneIcon className="w-6 h-6 text-emerald-500" />

@@ -164,7 +164,7 @@ export default function Checkout() {
     cod: <div className="text-emerald-800 text-sm mt-2">Pay with cash when your order is delivered to your address.</div>,
     jazzcash: <div className="text-emerald-800 text-sm mt-2">JazzCash Account: <b>0300-1234567</b><br/>You will receive a payment request on your mobile after order confirmation.</div>,
     easypaisa: <div className="text-emerald-800 text-sm mt-2">EasyPaisa Account: <b>0311-7654321</b><br/>You will receive a payment request on your mobile after order confirmation.</div>,
-    nayapay: <div className="text-emerald-800 text-sm mt-2">NayaPay ID: <b>hamzagrocery@naya.pk</b><br/>You will receive a payment request after order confirmation.</div>,
+    nayapay: <div className="text-emerald-800 text-sm mt-2">NayaPay ID: <b>vigoursorganic@naya.pk</b><br/>You will receive a payment request after order confirmation.</div>,
     card: <div className="text-emerald-800 text-sm mt-2">Pay securely with your credit or debit card. Your information is encrypted and secure.</div>,
   };
 
@@ -379,9 +379,9 @@ export default function Checkout() {
               </div>
               <div className="section store-info">
                 <div className="section-title">Store Details</div>
-                <div>Hamza Grocery Store</div>
+                <div>Vigours Organic Store</div>
                 <div>123 Organic Street, DHA, Lahore, Pakistan</div>
-                <div>support@hamzagrocery.com | +92 300 1234567</div>
+                <div>vigoursorganic@gmail.com | +92 300 1234567</div>
               </div>
             </div>
             <div className="flex gap-4 mt-4">

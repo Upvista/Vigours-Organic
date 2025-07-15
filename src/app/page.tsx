@@ -13,13 +13,13 @@ const HERO_IMAGES = [
 
 const HERO_TEXTS = [
   {
-    title: "Welcome to Hamza's Grocery Haven",
+    title: "Welcome to Vigours Organic Haven",
     subtitle: "Freshness Delivered, Happiness Guaranteed!",
     description: "Discover the best groceries, handpicked for you. Enjoy exclusive deals, fast delivery, and a shopping experience like no other. Shop now and make every meal special!",
     cta: "Shop Now"
   },
   {
-    title: "Taste the Difference with Hamza",
+    title: "Taste the Difference with Vigours",
     subtitle: "Organic, Local, and Always Fresh",
     description: "From farm to table, our products are sourced with care. Experience the joy of healthy eating with our premium selection.",
     cta: "Browse Products"
@@ -27,11 +27,11 @@ const HERO_TEXTS = [
   {
     title: "Your Neighborhood Store, Online",
     subtitle: "Groceries at Your Fingertips",
-    description: "Skip the lines and get your essentials delivered to your door. Fast, easy, and reliable – that's the Hamza promise!",
+    description: "Skip the lines and get your essentials delivered to your door. Fast, easy, and reliable – that's the Vigours promise!",
     cta: "Start Shopping"
   },
   {
-    title: "Hamza's Weekly Specials",
+    title: "Vigours Weekly Specials",
     subtitle: "Save More, Live Better",
     description: "Don't miss out on our exclusive weekly deals. Stock up and save big on your favorite products!",
     cta: "See Offers"

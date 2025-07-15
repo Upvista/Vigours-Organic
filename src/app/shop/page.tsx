@@ -5,48 +5,42 @@ import { MagnifyingGlassIcon, FunnelIcon, Squares2X2Icon, ListBulletIcon, HeartI
 import { HeartIcon as HeartSolidIcon } from "@heroicons/react/24/solid";
 
 const CATEGORIES = [
-  "All Products",
-  "Fruits & Vegetables",
-  "Breakfast & Dairy",
-  "Meat & Seafood",
-  "Beverages",
-  "Breads & Bakery",
-  "Snacks & Sweets",
-  "Frozen Foods",
+  "Hunza foods",
+  "Desi foods",
+  "Tibbi foods",
+  "General grocery",
 ];
 
-// Deterministic random number generator
-function seededRandom(seed: number) {
-  const x = Math.sin(seed) * 10000;
-  return x - Math.floor(x);
-}
-
 // Generate deterministic product data
-const PRODUCTS = Array.from({ length: 50 }, (_, i) => {
-  const seed = i + 1;
-  const price = [299, 499, 799, 399, 899, 650, 1200, 350, 450, 999, 750, 820, 540, 1100, 300, 600, 700, 850, 950, 1050][i % 20];
-  const originalPrice = [399, 599, 899, 499, 999, 750, 1400, 450, 550, 1099, 850, 920, 640, 1200, 400, 700, 800, 950, 1050, 1150][i % 20];
-  const categoryIndex = Math.floor(seededRandom(seed * 7) * (CATEGORIES.length - 1)) + 1;
-  const rating = (3 + seededRandom(seed * 13) * 2).toFixed(1);
-  const reviews = Math.floor(10 + seededRandom(seed * 17) * 90);
-  const inStock = seededRandom(seed * 19) > 0.1;
-  const isNew = seededRandom(seed * 23) > 0.7;
-  const isSale = seededRandom(seed * 29) > 0.6;
-
-  return {
-    id: i + 1,
-    name: `Premium Product ${i + 1}`,
-    price,
-    originalPrice,
-    image: "/assets/quail.jpeg",
-    category: CATEGORIES[categoryIndex],
-    rating,
-    reviews,
-    inStock,
-    isNew,
-    isSale,
-  };
-});
+const PRODUCTS = [
+  // Hunza foods
+  { id: 1, name: "Buckwheat", price: 450, originalPrice: 500, image: "/assets/quail.jpeg", category: "Hunza foods", rating: "4.8", reviews: 120, inStock: true, isNew: true, isSale: false },
+  { id: 2, name: "Hunza Tea", price: 350, originalPrice: 400, image: "/assets/quail.jpeg", category: "Hunza foods", rating: "4.7", reviews: 80, inStock: true, isNew: false, isSale: true },
+  { id: 3, name: "Hunza Valley Dry Fruits", price: 1200, originalPrice: 1400, image: "/assets/quail.jpeg", category: "Hunza foods", rating: "4.9", reviews: 60, inStock: true, isNew: false, isSale: false },
+  { id: 4, name: "Berries Mix", price: 900, originalPrice: 1000, image: "/assets/quail.jpeg", category: "Hunza foods", rating: "4.6", reviews: 45, inStock: true, isNew: true, isSale: true },
+  // Desi foods
+  { id: 5, name: "Desi Ghee", price: 1800, originalPrice: 2000, image: "/assets/quail.jpeg", category: "Desi foods", rating: "4.9", reviews: 150, inStock: true, isNew: false, isSale: true },
+  { id: 6, name: "Quail Meat", price: 950, originalPrice: 1100, image: "/assets/quail.jpeg", category: "Desi foods", rating: "4.8", reviews: 70, inStock: true, isNew: true, isSale: false },
+  { id: 7, name: "Multigrain Flour", price: 400, originalPrice: 450, image: "/assets/quail.jpeg", category: "Desi foods", rating: "4.7", reviews: 90, inStock: true, isNew: false, isSale: false },
+  { id: 8, name: "Mixed Pickles", price: 350, originalPrice: 400, image: "/assets/quail.jpeg", category: "Desi foods", rating: "4.6", reviews: 55, inStock: true, isNew: true, isSale: true },
+  { id: 9, name: "Jaggery (Gur)", price: 300, originalPrice: 350, image: "/assets/quail.jpeg", category: "Desi foods", rating: "4.8", reviews: 100, inStock: true, isNew: false, isSale: false },
+  // Tibbi foods
+  { id: 10, name: "Chia Seeds", price: 600, originalPrice: 700, image: "/assets/quail.jpeg", category: "Tibbi foods", rating: "4.9", reviews: 110, inStock: true, isNew: true, isSale: false },
+  { id: 11, name: "Pumpkin Seeds", price: 650, originalPrice: 750, image: "/assets/quail.jpeg", category: "Tibbi foods", rating: "4.8", reviews: 60, inStock: true, isNew: false, isSale: true },
+  { id: 12, name: "Olive Oil", price: 1200, originalPrice: 1400, image: "/assets/quail.jpeg", category: "Tibbi foods", rating: "4.7", reviews: 80, inStock: true, isNew: false, isSale: false },
+  { id: 13, name: "Mustard Oil", price: 900, originalPrice: 1000, image: "/assets/quail.jpeg", category: "Tibbi foods", rating: "4.6", reviews: 50, inStock: true, isNew: true, isSale: true },
+  { id: 14, name: "Triphla", price: 500, originalPrice: 600, image: "/assets/quail.jpeg", category: "Tibbi foods", rating: "4.8", reviews: 40, inStock: true, isNew: false, isSale: false },
+  { id: 15, name: "Moringa", price: 700, originalPrice: 800, image: "/assets/quail.jpeg", category: "Tibbi foods", rating: "4.7", reviews: 30, inStock: true, isNew: true, isSale: false },
+  { id: 16, name: "Bakhra Powder", price: 550, originalPrice: 650, image: "/assets/quail.jpeg", category: "Tibbi foods", rating: "4.6", reviews: 25, inStock: true, isNew: false, isSale: true },
+  { id: 17, name: "Methi Dana", price: 300, originalPrice: 350, image: "/assets/quail.jpeg", category: "Tibbi foods", rating: "4.8", reviews: 20, inStock: true, isNew: false, isSale: false },
+  { id: 18, name: "Kalwanji", price: 350, originalPrice: 400, image: "/assets/quail.jpeg", category: "Tibbi foods", rating: "4.7", reviews: 15, inStock: true, isNew: true, isSale: false },
+  // General grocery
+  { id: 19, name: "Kidney Beans", price: 250, originalPrice: 300, image: "/assets/quail.jpeg", category: "General grocery", rating: "4.8", reviews: 60, inStock: true, isNew: false, isSale: false },
+  { id: 20, name: "Chickpeas", price: 200, originalPrice: 250, image: "/assets/quail.jpeg", category: "General grocery", rating: "4.7", reviews: 50, inStock: true, isNew: true, isSale: true },
+  { id: 21, name: "Black Beans", price: 300, originalPrice: 350, image: "/assets/quail.jpeg", category: "General grocery", rating: "4.6", reviews: 40, inStock: true, isNew: false, isSale: false },
+  { id: 22, name: "Lentils", price: 180, originalPrice: 220, image: "/assets/quail.jpeg", category: "General grocery", rating: "4.8", reviews: 30, inStock: true, isNew: true, isSale: false },
+  { id: 23, name: "Green Peas", price: 220, originalPrice: 270, image: "/assets/quail.jpeg", category: "General grocery", rating: "4.7", reviews: 25, inStock: true, isNew: false, isSale: true },
+];
 
 const ITEMS_PER_PAGE = 12;
 

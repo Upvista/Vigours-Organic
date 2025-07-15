@@ -27,19 +27,24 @@ const CURRENCIES = [
 ];
 
 const CATEGORIES = [
-  "Fruits & Vegetables",
-  "Breakfast & Dairy",
-  "Meat & Seafood",
-  "Beverages",
-  "Breads & Bakery",
-  "Snacks & Sweets",
-  "Frozen Foods",
+  "Hunza foods",
+  "Desi foods",
+  "Tibbi foods",
+  "General grocery",
 ];
+
+const CATEGORY_LINKS: { [key: string]: string } = {
+  "Hunza foods": "/hunza-foods",
+  "Desi foods": "/desi-foods",
+  "Tibbi foods": "/tibbi-foods",
+  "General grocery": "/general-grocery",
+};
 
 const NAV_LINKS = [
   { label: "Home", icon: null, href: "/" },
   { label: "Shop", icon: null, href: "/shop" },
   { label: "Blog", icon: null, href: "/blog" },
+  { label: "About Us", icon: null, href: "/about-us" },
   { label: "Contact", icon: null, href: "/contact" },
 ];
 
@@ -144,14 +149,14 @@ const Header = () => {
       setCouponApplied(true);
       localStorage.setItem('couponDiscount', discount.toString());
       showSuccessPopup('SAVE20 coupon applied! 20% discount added.');
-    } else if (couponCode.toLowerCase() === 'hamza30') {
+    } else if (couponCode.toLowerCase() === 'vigo30') {
       const discount = subtotal * 0.3;
       setCouponDiscount(discount);
       setCouponApplied(true);
       localStorage.setItem('couponDiscount', discount.toString());
-      showSuccessPopup('HAMZA30 coupon applied! 30% discount added.');
+      showSuccessPopup('VIGO30 coupon applied! 30% discount added.');
     } else {
-      showErrorPopup('Invalid coupon code. Try "SAVE10", "SAVE20", or "HAMZA30"');
+      showErrorPopup('Invalid coupon code. Try "SAVE10", "SAVE20", or "VIGO30"');
     }
   };
 
@@ -247,7 +252,7 @@ const Header = () => {
                     <div className="w-8 h-8 bg-gradient-to-br from-emerald-400 to-emerald-300 rounded-full flex items-center justify-center shadow">
                       <ShoppingBagIcon className="w-5 h-5 text-white" />
                     </div>
-                    <span className="font-extrabold text-xl text-emerald-900 tracking-tight">hamza</span>
+                    <span className="font-extrabold text-xl text-emerald-900 tracking-tight">Vigours Organic</span>
                   </div>
                   <button onClick={() => setSidebarOpen(false)} className="text-emerald-500 hover:text-emerald-600 text-2xl font-bold"><XMarkIcon className="w-6 h-6" /></button>
                 </div>
@@ -303,12 +308,13 @@ const Header = () => {
                         {CATEGORIES.map((cat) => (
                           <Menu.Item key={cat}>
                             {({ active }) => (
-                              <a
-                                href="#"
-                                className={`${active ? "bg-emerald-100" : ""} group flex w-full items-center px-4 py-2 text-sm text-gray-700`}
+                              <Link
+                                href={CATEGORY_LINKS[cat]}
+                                className={`group flex w-full items-center px-4 py-2 text-sm text-gray-700${active ? ' bg-emerald-100' : ''}`}
+                                onClick={() => setSidebarOpen(false)}
                               >
                                 {cat}
-                              </a>
+                              </Link>
                             )}
                           </Menu.Item>
                         ))}
@@ -394,7 +400,11 @@ const Header = () => {
                     </Transition>
                   </Menu>
                 </div>
-                <div className="text-xs text-gray-400 text-center p-2 border-t">Copyright 2025 © Bacola WordPress Theme. All rights reserved. Powered by KlbTheme.</div>
+                <div className="text-xs text-gray-400 text-center p-2 border-t">
+                  <a href="https://www.upvistadigital.com" target="_blank" rel="noopener noreferrer" className="text-emerald-600 hover:text-emerald-800 font-semibold transition-colors duration-200 underline">
+                    Made by Upvista Digital
+                  </a>
+                </div>
               </Dialog.Panel>
             </Transition.Child>
           </div>
@@ -543,7 +553,7 @@ const Header = () => {
                           </button>
                         </div>
                       )}
-                      <p className="text-xs text-gray-500">Try: SAVE10 (10% off), SAVE20 (20% off), or HAMZA30 (30% off)</p>
+                      <p className="text-xs text-gray-500">Try: SAVE10 (10% off), SAVE20 (20% off), or VIGO30 (30% off)</p>
                     </div>
 
                     {/* Price Summary */}
@@ -602,9 +612,9 @@ const Header = () => {
           <Bars3Icon className="w-7 h-7 text-emerald-700" />
         </button>
         {/* Logo */}
-        <div className="flex items-center gap-2">
-          <div className="w-9 h-9 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-full flex items-center justify-center shadow">
-            <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none"><path d="M12 2C7 7 2 12 12 22C22 12 17 7 12 2Z" fill="#2dc870" stroke="#1d9c54" strokeWidth="2"/></svg>
+        <div className="flex items-center justify-center w-full">
+          <div className="w-12 h-12 flex items-center justify-center mx-auto">
+            <Image src="/assets/logo2.png" alt="Vigours Organic Mobile Logo" width={48} height={48} className="object-contain w-full h-full" />
           </div>
         </div>
         {/* Cart */}
@@ -636,7 +646,7 @@ const Header = () => {
         {/* Organic SVG leaf background */}
         <svg className="absolute left-0 top-0 h-full w-32 opacity-10" viewBox="0 0 100 100" fill="none"><ellipse cx="50" cy="50" rx="50" ry="50" fill="#2dc870" /></svg>
         <div className="flex flex-wrap gap-4 items-center relative z-10">
-          <a href="#" className="hover:underline hover:text-emerald-200 transition-colors duration-200">About Us</a>
+          <Link href="/about-us" className="hover:underline hover:text-emerald-200 transition-colors duration-200">About Us</Link>
           <a href="#" className="hover:underline hover:text-emerald-200 transition-colors duration-200">My Account</a>
           <a href="#" className="hover:underline hover:text-emerald-200 transition-colors duration-200 flex items-center gap-1"><HeartIcon className="w-4 h-4 inline animate-pulse" />Wishlist</a>
           <a href="#" className="hover:underline hover:text-emerald-200 transition-colors duration-200">Order Tracking</a>
@@ -646,24 +656,24 @@ const Header = () => {
           <span className="font-medium">100% Secure delivery without contacting the courier</span>
         </div>
         <div className="flex flex-wrap gap-4 items-center relative z-10">
-          <span>Need help? <span className="text-emerald-200 font-bold hover:text-white transition-colors duration-200">+ 0020 500</span></span>
+          <span>Need help? <span className="text-emerald-200 font-bold hover:text-white transition-colors duration-200">03334286566</span></span>
         </div>
       </div>
       {/* Main Header */}
       <div className="container mx-auto hidden md:flex flex-col md:flex-row items-center justify-between py-4 px-4 gap-4 bg-gradient-to-r from-emerald-100 to-white rounded-b-2xl shadow-md">
-        {/* Logo & Tagline */}
-        <div className="flex items-center gap-3 min-w-max group">
-          <div className="w-12 h-12 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
-            {/* Organic leaf SVG */}
-            <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none"><path d="M12 2C7 7 2 12 12 22C22 12 17 7 12 2Z" fill="#2dc870" stroke="#1d9c54" strokeWidth="2"/></svg>
+        {/* Logo */}
+        <div className="flex items-center min-w-max group gap-4">
+          <div className="w-20 h-20 flex items-center justify-center">
+            <Image src="/assets/logo2.png" alt="Vigours Organic Logo" width={80} height={80} className="object-contain w-full h-full" />
           </div>
-          <span className="font-extrabold text-3xl text-emerald-900 tracking-tight group-hover:text-emerald-700 transition-colors duration-300">hamza</span>
-          <span className="text-xs text-emerald-700 ml-2 font-medium group-hover:text-emerald-900 transition-colors duration-300">Organic Grocery Shopping</span>
+          <span className="font-extrabold text-3xl md:text-4xl lg:text-5xl text-emerald-800 tracking-tight" style={{ fontFamily: 'serif', letterSpacing: '0.02em', textShadow: '0 2px 8px rgba(44,197,123,0.10)' }}>
+            Vigours <span className="text-emerald-500 font-black">Organic</span>
+          </span>
         </div>
-        {/* Location Selector */}
-        <div className="flex-1 flex justify-center md:justify-start">
-          <Menu as="div" className="relative inline-block text-left w-full max-w-xs">
-            <Menu.Button className="flex items-center gap-2 px-4 py-2 w-full bg-white border-2 border-emerald-200 rounded-xl shadow-sm hover:bg-emerald-50 hover:border-emerald-300 transition-all duration-300 font-semibold text-emerald-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 group">
+        {/* Location Selector & Search Bar */}
+        <div className="flex flex-1 items-center gap-4 justify-end">
+          <Menu as="div" className="relative inline-block text-left max-w-xs">
+            <Menu.Button className="flex items-center gap-2 px-4 py-2 bg-white border-2 border-emerald-200 rounded-xl shadow-sm hover:bg-emerald-50 hover:border-emerald-300 transition-all duration-300 font-semibold text-emerald-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 group">
               <MapPinIcon className="w-5 h-5 text-emerald-500 group-hover:scale-110 transition-transform duration-300" />
               <span>{selectedLocation.name}</span>
               <span className="text-xs text-emerald-500">(Delivery: Rs. {selectedLocation.rate})</span>
@@ -695,9 +705,6 @@ const Header = () => {
               </Menu.Items>
             </Transition>
           </Menu>
-        </div>
-        {/* Search Bar */}
-        <div className="flex-1 flex justify-center">
           <form className="w-full max-w-lg flex items-center bg-white border-2 border-emerald-200 rounded-xl shadow-sm overflow-hidden hover:border-emerald-300 focus-within:border-emerald-500 focus-within:shadow-lg transition-all duration-300 group">
             <input className="flex-1 px-4 py-3 bg-transparent outline-none text-emerald-800 placeholder-emerald-400 font-medium" placeholder="Search for organic products, brands and more..." />
             <button type="submit" className="bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 transition-all duration-300 text-white px-4 py-3 flex items-center gap-1 font-semibold group-hover:shadow-lg">
@@ -731,10 +738,9 @@ const Header = () => {
         <div className="container mx-auto flex justify-center items-center gap-6 px-4">
           {/* Categories Dropdown */}
           <Menu as="div" className="relative inline-block text-left">
-            <Menu.Button className="flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-4 py-1.5 rounded-xl shadow-lg hover:from-emerald-600 hover:to-emerald-700 hover:shadow-xl transition-all duration-300 font-bold text-base focus:outline-none group">
-              <Bars3Icon className="w-6 h-6 group-hover:rotate-12 transition-transform duration-300" />
-              <span>ALL CATEGORIES</span>
-              <span className="text-xs bg-emerald-900 px-2 py-0.5 rounded-full ml-2 group-hover:bg-emerald-800 transition-colors duration-300">TOTAL 63 PRODUCTS</span>
+            <Menu.Button className="flex items-center gap-3 px-8 py-1.5 min-w-[170px] rounded-full bg-gradient-to-r from-emerald-400 to-emerald-600 text-white font-semibold text-base shadow-md hover:from-emerald-500 hover:to-emerald-700 hover:shadow-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-emerald-400 border-none">
+              <Bars3Icon className="w-5 h-5 text-white drop-shadow-sm" />
+              <span className="tracking-wide font-bold whitespace-nowrap" style={{letterSpacing: '0.04em'}}>All Categories</span>
             </Menu.Button>
             <Transition
               enter="transition duration-100 ease-out"
@@ -744,27 +750,31 @@ const Header = () => {
               leaveFrom="transform scale-100 opacity-100"
               leaveTo="transform scale-95 opacity-0"
             >
-              <Menu.Items className="absolute left-0 mt-2 w-56 origin-top-left bg-white divide-y divide-emerald-100 rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none z-50 border border-emerald-100">
+              <Menu.Items className="absolute left-0 mt-2 w-56 origin-top-left bg-white rounded-2xl shadow-2xl ring-1 ring-emerald-100 border border-emerald-100 focus:outline-none z-50">
                 {CATEGORIES.map((cat) => (
                   <Menu.Item key={cat}>
                     {({ active }) => (
-                      <a
-                        href="#"
-                        className={`${active ? "bg-emerald-100" : ""} group flex w-full items-center px-4 py-3 text-sm text-emerald-700 hover:bg-emerald-50 transition-all duration-200 rounded-lg mx-2 my-1`}
+                      <Link
+                        href={CATEGORY_LINKS[cat]}
+                        className={`group flex w-full items-center px-5 py-3 text-base font-medium transition-all duration-200 rounded-xl mb-1
+                          ${active ? 'bg-emerald-50 text-emerald-700 font-bold border-l-4 border-emerald-500 shadow-sm' : 'text-gray-700 hover:bg-emerald-50 hover:text-emerald-700'}
+                        `}
+                        style={{fontFamily: 'Inter, sans-serif', letterSpacing: '0.01em'}}
                       >
                         {cat}
-                      </a>
+                      </Link>
                     )}
                   </Menu.Item>
                 ))}
               </Menu.Items>
             </Transition>
           </Menu>
-          <div className="flex gap-2 md:gap-4 lg:gap-6 xl:gap-8 justify-center items-center w-full">
-            <Link href="/" className={getLinkClasses("/") + " beautify-nav-link compact-nav-link text-emerald-900"}>HOME</Link>
-            <Link href="/shop" className={getLinkClasses("/shop") + " beautify-nav-link compact-nav-link text-emerald-900"}>SHOP</Link>
-            <Link href="/blog" className={getLinkClasses("/blog") + " beautify-nav-link compact-nav-link text-emerald-900"}>BLOG</Link>
-            <Link href="/contact" className={getLinkClasses("/contact") + " beautify-nav-link compact-nav-link text-emerald-900"}>CONTACT</Link>
+          <div className="flex gap-6 justify-center items-center w-full">
+            <Link href="/" className={`px-2 py-1 text-lg font-medium tracking-wide transition-all duration-200 border-b-2 ${pathname === '/' ? 'border-emerald-600 text-emerald-700 font-bold' : 'border-transparent text-gray-700 hover:text-emerald-600 hover:border-emerald-400'} rounded-none bg-transparent`} style={{fontFamily: 'Inter, sans-serif', letterSpacing: '0.02em'}}>Home</Link>
+            <Link href="/shop" className={`px-2 py-1 text-lg font-medium tracking-wide transition-all duration-200 border-b-2 ${pathname.startsWith('/shop') ? 'border-emerald-600 text-emerald-700 font-bold' : 'border-transparent text-gray-700 hover:text-emerald-600 hover:border-emerald-400'} rounded-none bg-transparent`} style={{fontFamily: 'Inter, sans-serif', letterSpacing: '0.02em'}}>Shop</Link>
+            <Link href="/blog" className={`px-2 py-1 text-lg font-medium tracking-wide transition-all duration-200 border-b-2 ${pathname.startsWith('/blog') ? 'border-emerald-600 text-emerald-700 font-bold' : 'border-transparent text-gray-700 hover:text-emerald-600 hover:border-emerald-400'} rounded-none bg-transparent`} style={{fontFamily: 'Inter, sans-serif', letterSpacing: '0.02em'}}>Blog</Link>
+            <Link href="/about-us" className={`px-2 py-1 text-lg font-medium tracking-wide transition-all duration-200 border-b-2 ${pathname.startsWith('/about-us') ? 'border-emerald-600 text-emerald-700 font-bold' : 'border-transparent text-gray-700 hover:text-emerald-600 hover:border-emerald-400'} rounded-none bg-transparent`} style={{fontFamily: 'Inter, sans-serif', letterSpacing: '0.02em'}}>About Us</Link>
+            <Link href="/contact" className={`px-2 py-1 text-lg font-medium tracking-wide transition-all duration-200 border-b-2 ${pathname.startsWith('/contact') ? 'border-emerald-600 text-emerald-700 font-bold' : 'border-transparent text-gray-700 hover:text-emerald-600 hover:border-emerald-400'} rounded-none bg-transparent`} style={{fontFamily: 'Inter, sans-serif', letterSpacing: '0.02em'}}>Contact</Link>
           </div>
         </div>
       </nav>
