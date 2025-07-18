@@ -37,9 +37,9 @@ const Footer = () => {
           </div>
           <div className="flex flex-wrap justify-between gap-8 w-full">
             {/* Category columns here */}
-            <div>
+          <div>
               <h4 className="font-bold mb-2 text-emerald-700">Hunza Foods</h4>
-              <ul className="text-sm text-emerald-800 space-y-1">
+            <ul className="text-sm text-emerald-800 space-y-1">
                 <li>Organic Apricots</li>
                 <li>Dried Mulberries</li>
                 <li>Pure Honey</li>
@@ -47,11 +47,11 @@ const Footer = () => {
                 <li>Almonds</li>
                 <li>Chilgoza Pine Nuts</li>
                 <li>Sun-Dried Figs</li>
-              </ul>
-            </div>
-            <div>
+            </ul>
+          </div>
+          <div>
               <h4 className="font-bold mb-2 text-emerald-700">Desi Foods</h4>
-              <ul className="text-sm text-emerald-800 space-y-1">
+            <ul className="text-sm text-emerald-800 space-y-1">
                 <li>Desi Ghee</li>
                 <li>Handmade Papad</li>
                 <li>Pickles</li>
@@ -59,11 +59,11 @@ const Footer = () => {
                 <li>Traditional Spices</li>
                 <li>Desi Sweets</li>
                 <li>Makki di Roti</li>
-              </ul>
-            </div>
-            <div>
+            </ul>
+          </div>
+          <div>
               <h4 className="font-bold mb-2 text-emerald-700">Tibbi Foods</h4>
-              <ul className="text-sm text-emerald-800 space-y-1">
+            <ul className="text-sm text-emerald-800 space-y-1">
                 <li>Herbal Teas</li>
                 <li>Black Seeds (Kalonji)</li>
                 <li>Ajwain</li>
@@ -71,11 +71,11 @@ const Footer = () => {
                 <li>Senna Leaves</li>
                 <li>Qahwa</li>
                 <li>Unani Oils</li>
-              </ul>
-            </div>
-            <div>
+            </ul>
+          </div>
+          <div>
               <h4 className="font-bold mb-2 text-emerald-700">General Grocery</h4>
-              <ul className="text-sm text-emerald-800 space-y-1">
+            <ul className="text-sm text-emerald-800 space-y-1">
                 <li>Whole Wheat Flour</li>
                 <li>Organic Rice</li>
                 <li>Lentils & Pulses</li>
@@ -83,7 +83,7 @@ const Footer = () => {
                 <li>Natural Sweeteners</li>
                 <li>Spices & Herbs</li>
                 <li>Healthy Snacks</li>
-              </ul>
+            </ul>
             </div>
           </div>
         </div>

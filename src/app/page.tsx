@@ -2,7 +2,20 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { StarIcon } from "@heroicons/react/24/solid";
-import type { Product } from "./shop/page";
+// If import type { Product } from '../products' fails, define the Product type locally:
+type Product = {
+  id: number;
+  name: string;
+  price: number;
+  originalPrice: number;
+  rating: string;
+  reviews: number;
+  image: string;
+  category: string;
+  inStock: boolean;
+  isNew: boolean;
+  isSale: boolean;
+};
 
 const HERO_IMAGES = [
   "/assets/1.jpg",

@@ -618,7 +618,7 @@ const Header = () => {
           </div>
         </div>
         {/* Cart */}
-        <button onClick={() => setCartOpen(true)} className="relative p-2 rounded-full hover:bg-emerald-50 transition">
+        <button onClick={() => setCartOpen(true)} className="relative p-2 rounded-full hover:bg-emerald-50 transition" aria-label="Open cart">
           <ShoppingBagIcon className="w-7 h-7 text-emerald-700" />
           {totalItems > 0 && (
             <span className="absolute top-1 right-1 bg-gradient-to-r from-emerald-500 to-emerald-700 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold shadow-lg animate-pulse">

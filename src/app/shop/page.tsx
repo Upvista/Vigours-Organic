@@ -1,8 +1,10 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { MagnifyingGlassIcon, FunnelIcon, Squares2X2Icon, ListBulletIcon, HeartIcon, EyeIcon, ShoppingCartIcon, StarIcon } from "@heroicons/react/24/outline";
+import { FunnelIcon, Squares2X2Icon, ListBulletIcon, HeartIcon, EyeIcon, ShoppingCartIcon, StarIcon } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartSolidIcon } from "@heroicons/react/24/solid";
+import { PRODUCTS, Product } from "../products";
+import { useRouter } from 'next/navigation';
 
 const CATEGORIES = [
   "Hunza foods",
@@ -11,88 +13,43 @@ const CATEGORIES = [
   "General grocery",
 ];
 
-// Generate deterministic product data
-const PRODUCTS = [
-  // Hunza foods
-  { id: 1, name: "Buckwheat", price: 450, originalPrice: 500, image: "/assets/quail.jpeg", category: "Hunza foods", rating: "4.8", reviews: 120, inStock: true, isNew: true, isSale: false },
-  { id: 2, name: "Hunza Tea", price: 350, originalPrice: 400, image: "/assets/quail.jpeg", category: "Hunza foods", rating: "4.7", reviews: 80, inStock: true, isNew: false, isSale: true },
-  { id: 3, name: "Hunza Valley Dry Fruits", price: 1200, originalPrice: 1400, image: "/assets/quail.jpeg", category: "Hunza foods", rating: "4.9", reviews: 60, inStock: true, isNew: false, isSale: false },
-  { id: 4, name: "Berries Mix", price: 900, originalPrice: 1000, image: "/assets/quail.jpeg", category: "Hunza foods", rating: "4.6", reviews: 45, inStock: true, isNew: true, isSale: true },
-  // Desi foods
-  { id: 5, name: "Desi Ghee", price: 1800, originalPrice: 2000, image: "/assets/quail.jpeg", category: "Desi foods", rating: "4.9", reviews: 150, inStock: true, isNew: false, isSale: true },
-  { id: 6, name: "Quail Meat", price: 950, originalPrice: 1100, image: "/assets/quail.jpeg", category: "Desi foods", rating: "4.8", reviews: 70, inStock: true, isNew: true, isSale: false },
-  { id: 7, name: "Multigrain Flour", price: 400, originalPrice: 450, image: "/assets/quail.jpeg", category: "Desi foods", rating: "4.7", reviews: 90, inStock: true, isNew: false, isSale: false },
-  { id: 8, name: "Mixed Pickles", price: 350, originalPrice: 400, image: "/assets/quail.jpeg", category: "Desi foods", rating: "4.6", reviews: 55, inStock: true, isNew: true, isSale: true },
-  { id: 9, name: "Jaggery (Gur)", price: 300, originalPrice: 350, image: "/assets/quail.jpeg", category: "Desi foods", rating: "4.8", reviews: 100, inStock: true, isNew: false, isSale: false },
-  // Tibbi foods
-  { id: 10, name: "Chia Seeds", price: 600, originalPrice: 700, image: "/assets/quail.jpeg", category: "Tibbi foods", rating: "4.9", reviews: 110, inStock: true, isNew: true, isSale: false },
-  { id: 11, name: "Pumpkin Seeds", price: 650, originalPrice: 750, image: "/assets/quail.jpeg", category: "Tibbi foods", rating: "4.8", reviews: 60, inStock: true, isNew: false, isSale: true },
-  { id: 12, name: "Olive Oil", price: 1200, originalPrice: 1400, image: "/assets/quail.jpeg", category: "Tibbi foods", rating: "4.7", reviews: 80, inStock: true, isNew: false, isSale: false },
-  { id: 13, name: "Mustard Oil", price: 900, originalPrice: 1000, image: "/assets/quail.jpeg", category: "Tibbi foods", rating: "4.6", reviews: 50, inStock: true, isNew: true, isSale: true },
-  { id: 14, name: "Triphla", price: 500, originalPrice: 600, image: "/assets/quail.jpeg", category: "Tibbi foods", rating: "4.8", reviews: 40, inStock: true, isNew: false, isSale: false },
-  { id: 15, name: "Moringa", price: 700, originalPrice: 800, image: "/assets/quail.jpeg", category: "Tibbi foods", rating: "4.7", reviews: 30, inStock: true, isNew: true, isSale: false },
-  { id: 16, name: "Bakhra Powder", price: 550, originalPrice: 650, image: "/assets/quail.jpeg", category: "Tibbi foods", rating: "4.6", reviews: 25, inStock: true, isNew: false, isSale: true },
-  { id: 17, name: "Methi Dana", price: 300, originalPrice: 350, image: "/assets/quail.jpeg", category: "Tibbi foods", rating: "4.8", reviews: 20, inStock: true, isNew: false, isSale: false },
-  { id: 18, name: "Kalwanji", price: 350, originalPrice: 400, image: "/assets/quail.jpeg", category: "Tibbi foods", rating: "4.7", reviews: 15, inStock: true, isNew: true, isSale: false },
-  // General grocery
-  { id: 19, name: "Kidney Beans", price: 250, originalPrice: 300, image: "/assets/quail.jpeg", category: "General grocery", rating: "4.8", reviews: 60, inStock: true, isNew: false, isSale: false },
-  { id: 20, name: "Chickpeas", price: 200, originalPrice: 250, image: "/assets/quail.jpeg", category: "General grocery", rating: "4.7", reviews: 50, inStock: true, isNew: true, isSale: true },
-  { id: 21, name: "Black Beans", price: 300, originalPrice: 350, image: "/assets/quail.jpeg", category: "General grocery", rating: "4.6", reviews: 40, inStock: true, isNew: false, isSale: false },
-  { id: 22, name: "Lentils", price: 180, originalPrice: 220, image: "/assets/quail.jpeg", category: "General grocery", rating: "4.8", reviews: 30, inStock: true, isNew: true, isSale: false },
-  { id: 23, name: "Green Peas", price: 220, originalPrice: 270, image: "/assets/quail.jpeg", category: "General grocery", rating: "4.7", reviews: 25, inStock: true, isNew: false, isSale: true },
-];
-
 const ITEMS_PER_PAGE = 12;
-
-// Define Product type
-export type Product = {
-  id: number;
-  name: string;
-  price: number;
-  originalPrice: number;
-  image: string;
-  category: string;
-  rating: string;
-  reviews: number;
-  inStock: boolean;
-  isNew: boolean;
-  isSale: boolean;
-};
 
 export default function Shop() {
   const [products] = useState<Product[]>(PRODUCTS);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(PRODUCTS);
   const [displayedProducts, setDisplayedProducts] = useState<Product[]>(PRODUCTS.slice(0, ITEMS_PER_PAGE));
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All Products");
   const [sortBy, setSortBy] = useState("featured");
   const [priceRange, setPriceRange] = useState([0, 2000]);
   const [viewMode, setViewMode] = useState("grid");
   const [wishlist, setWishlist] = useState<number[]>([]);
-  const [showQuickView, setShowQuickView] = useState<number | null>(null);
-  // Add state for cartCount
-  const [cartCount, setCartCount] = useState(0);
+  const [showQuickView, setShowQuickView] = useState<string | null>(null);
+  // 1. Add state for mobile filter panel
+  const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+  const [quickViewSlide, setQuickViewSlide] = useState(0);
+
+  const router = useRouter();
 
   // Filter and sort products
   useEffect(() => {
     const filtered = products.filter(product => {
-      const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesCategory = selectedCategory === "All Products" || product.category === selectedCategory;
-      const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
-      return matchesSearch && matchesCategory && matchesPrice;
+      const matchesPrice = product.newPrice >= priceRange[0] && product.newPrice <= priceRange[1];
+      return matchesCategory && matchesPrice;
     });
 
     // Sort products
     switch (sortBy) {
       case "price-low":
-        filtered.sort((a, b) => a.price - b.price);
+        filtered.sort((a, b) => a.newPrice - b.newPrice);
         break;
       case "price-high":
-        filtered.sort((a, b) => b.price - a.price);
-        break;
+        filtered.sort((a, b) => b.newPrice - a.newPrice);
+        break; 
       case "rating":
-        filtered.sort((a, b) => parseFloat(b.rating) - parseFloat(a.rating));
+        filtered.sort((a, b) => b.reviewStars - a.reviewStars);
         break;
       case "newest":
         filtered.sort((a, b) => b.id - a.id);
@@ -105,7 +62,18 @@ export default function Shop() {
     setFilteredProducts(filtered);
     setCurrentPage(1);
     setDisplayedProducts(filtered.slice(0, ITEMS_PER_PAGE));
-  }, [searchTerm, selectedCategory, sortBy, priceRange, products]);
+  }, [selectedCategory, sortBy, priceRange, products]);
+
+  // Slideshow effect for modal
+  useEffect(() => {
+    if (!showQuickView) return;
+    const product = products.find(p => p.id.toString() === showQuickView);
+    if (!product) return;
+    const timer = setInterval(() => {
+      setQuickViewSlide((prev) => (prev + 1) % product.images.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [showQuickView, products]);
 
   // Load more products
   const loadMore = () => {
@@ -133,10 +101,10 @@ export default function Shop() {
 
     const cartItem = {
       id: product.id,
-      name: product.name,
-      price: product.price,
-      originalPrice: product.originalPrice,
-      image: product.image,
+      name: product.title,
+      price: product.newPrice,
+      originalPrice: product.oldPrice,
+      image: product.coverImage,
       quantity: 1,
       category: product.category,
     };
@@ -168,12 +136,13 @@ export default function Shop() {
     createAddToCartAnimation(product);
     
     // Show success message with beautiful animated popup
-    showSuccessPopup(`${product.name} added to cart!`);
+    showSuccessPopup(`${product.title} added to cart!`);
   };
 
   // Open quick view modal
   const openQuickView = (product: Product) => {
-    setShowQuickView(product.id);
+    setShowQuickView(product.id.toString());
+    setQuickViewSlide(0);
   };
 
   // Beautiful add to cart animation
@@ -195,7 +164,7 @@ export default function Shop() {
     floatingImage.style.top = `${rect.top + rect.height / 2 - 25}px`;
     floatingImage.style.width = '50px';
     floatingImage.style.height = '50px';
-    floatingImage.style.backgroundImage = `url(${product.image})`;
+    floatingImage.style.backgroundImage = `url(${product.coverImage})`;
     floatingImage.style.backgroundSize = 'cover';
     floatingImage.style.backgroundPosition = 'center';
     floatingImage.style.borderRadius = '50%';
@@ -262,15 +231,14 @@ export default function Shop() {
   // useEffect to update cartCount on client
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-      setCartCount(cart.reduce((sum: number, item: {quantity: number}) => sum + item.quantity, 0));
+      // setCartCount(cart.reduce((sum: number, item: {quantity: number}) => sum + item.quantity, 0));
       // Optionally, listen for cart updates
-      const handler = () => {
-        const updatedCart = JSON.parse(localStorage.getItem('cart') || '[]');
-        setCartCount(updatedCart.reduce((sum: number, item: {quantity: number}) => sum + item.quantity, 0));
-      };
-      window.addEventListener('cartUpdated', handler);
-      return () => window.removeEventListener('cartUpdated', handler);
+      // const handler = () => {
+      //   const updatedCart = JSON.parse(localStorage.getItem('cart') || '[]');
+      //   setCartCount(updatedCart.reduce((sum: number, item: {quantity: number}) => sum + item.quantity, 0));
+      // };
+      // window.addEventListener('cartUpdated', handler);
+      // return () => window.removeEventListener('cartUpdated', handler);
     }
   }, []);
 
@@ -285,20 +253,10 @@ export default function Shop() {
 
         {/* Search and Filters */}
         <div className="bg-white rounded-2xl shadow-lg p-8 mb-8 border border-gray-100">
-          <div className="flex flex-col lg:flex-row gap-6 items-center justify-between">
-            {/* Search */}
-            <div className="relative flex-1 max-w-md">
-              <MagnifyingGlassIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
-              <input
-                type="text"
-                placeholder="Search products..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-gray-900 font-medium"
-              />
-            </div>
-
-            {/* Sort */}
+          <div className="flex items-center justify-end gap-3 mb-4">
+            <button className="lg:hidden p-2 rounded-full bg-emerald-100 hover:bg-emerald-200" onClick={() => setMobileFilterOpen(true)}>
+              <FunnelIcon className="w-6 h-6 text-emerald-600" />
+            </button>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
@@ -326,16 +284,6 @@ export default function Shop() {
                 <ListBulletIcon className="w-5 h-5" />
               </button>
             </div>
-
-            {/* Cart */}
-            <button className="relative p-3 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition-colors shadow-lg">
-              <ShoppingCartIcon className="w-6 h-6" />
-              {cartCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">
-                  {cartCount}
-                </span>
-              )}
-            </button>
           </div>
 
           {/* Price Range Filter */}
@@ -355,7 +303,7 @@ export default function Shop() {
 
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar */}
-          <div className="lg:w-72 flex-shrink-0">
+          <div className="lg:w-72 flex-shrink-0 hidden lg:block">
             <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-4 border border-gray-100">
               <h3 className="font-bold text-xl mb-6 flex items-center gap-3 text-gray-900">
                 <FunnelIcon className="w-6 h-6 text-emerald-600" />
@@ -395,8 +343,9 @@ export default function Shop() {
               <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
                 {displayedProducts.map((product, index) => (
                   <div 
-                    key={product.id} 
-                    data-product-id={product.id}
+                    key={product.id.toString()} 
+                    data-product-id={product.id.toString()}
+                    onClick={() => openQuickView(product)}
                     className="bg-white rounded-2xl shadow-lg p-3 sm:p-4 lg:p-6 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 transform group border border-gray-100"
                     style={{
                       animationName: 'fadeInUp',
@@ -410,8 +359,8 @@ export default function Shop() {
                     <div className="relative mb-3 sm:mb-4 lg:mb-6">
                       <div className="w-full h-32 sm:h-40 lg:h-56 relative overflow-hidden rounded-xl bg-gradient-to-br from-gray-50 to-gray-100">
                         <Image
-                          src={product.image}
-                          alt={product.name}
+                          src={product.coverImage}
+                          alt={product.title}
                           fill
                           className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                         />
@@ -426,7 +375,7 @@ export default function Shop() {
                         )}
                         {product.isSale && (
                           <span className="bg-red-500 text-white text-xs sm:text-sm px-2 sm:px-3 py-1 rounded-full font-bold shadow-lg">
-                            -{getDiscount(product.originalPrice, product.price)}% OFF
+                            -{getDiscount(product.oldPrice, product.newPrice)}% OFF
                           </span>
                         )}
                       </div>
@@ -461,20 +410,20 @@ export default function Shop() {
 
                     {/* Product Info */}
                     <div className="text-center">
-                      <h3 className="font-bold text-sm sm:text-lg lg:text-xl mb-1 sm:mb-2 text-gray-900 leading-tight line-clamp-2">{product.name}</h3>
+                      <h3 className="font-bold text-sm sm:text-lg lg:text-xl mb-1 sm:mb-2 text-gray-900 leading-tight line-clamp-2">{product.title}</h3>
                       <div className="flex items-center justify-center gap-1 sm:gap-2 mb-2 sm:mb-3">
                         <StarIcon className="w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5 text-yellow-400 fill-current" />
-                        <span className="text-xs sm:text-sm lg:text-base font-semibold text-gray-800">{product.rating}</span>
+                        <span className="text-xs sm:text-sm lg:text-base font-semibold text-gray-800">{product.reviewStars}</span>
                         <span className="text-xs sm:text-sm text-gray-600">({product.reviews})</span>
                       </div>
                       <div className="flex items-center justify-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-                        <span className="text-emerald-600 font-bold text-lg sm:text-xl lg:text-2xl">PKR {product.price}</span>
+                        <span className="text-emerald-600 font-bold text-lg sm:text-xl lg:text-2xl">PKR {product.newPrice}</span>
                         {product.isSale && (
-                          <span className="text-gray-500 line-through text-sm sm:text-base lg:text-lg font-medium">PKR {product.originalPrice}</span>
+                          <span className="text-gray-500 line-through text-sm sm:text-base lg:text-lg font-medium">PKR {product.oldPrice}</span>
                         )}
                       </div>
                       <button
-                        onClick={() => addToCart(product.id)}
+                        onClick={e => { e.stopPropagation(); addToCart(product.id); }}
                         disabled={!product.inStock}
                         className="w-full bg-gradient-to-r from-emerald-500 via-emerald-600 to-emerald-700 hover:from-emerald-600 hover:via-emerald-700 hover:to-emerald-800 disabled:bg-gray-400 text-white py-2 sm:py-3 rounded-xl font-bold text-sm sm:text-base lg:text-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 transform group-hover:shadow-emerald-500/25"
                       >
@@ -491,28 +440,28 @@ export default function Shop() {
               // List View
               <div className="space-y-4 sm:space-y-6">
                 {displayedProducts.map((product) => (
-                  <div key={product.id} className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 hover:shadow-xl transition-all border border-gray-100">
+                  <div key={product.id.toString()} className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 hover:shadow-xl transition-all border border-gray-100">
                     <div className="flex gap-4 sm:gap-6">
                       <div className="w-20 h-20 sm:w-32 sm:h-32 relative flex-shrink-0">
                         <Image
-                          src={product.image}
-                          alt={product.name}
+                          src={product.coverImage}
+                          alt={product.title}
                           fill
                           className="object-cover rounded-xl"
                         />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-bold text-lg sm:text-xl lg:text-2xl mb-1 sm:mb-2 text-gray-900 line-clamp-2">{product.name}</h3>
+                        <h3 className="font-bold text-lg sm:text-xl lg:text-2xl mb-1 sm:mb-2 text-gray-900 line-clamp-2">{product.title}</h3>
                         <div className="flex items-center gap-1 sm:gap-2 mb-2 sm:mb-3">
                           <StarIcon className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400 fill-current" />
-                          <span className="text-sm sm:text-lg font-semibold text-gray-800">{product.rating}</span>
+                          <span className="text-sm sm:text-lg font-semibold text-gray-800">{product.reviewStars}</span>
                           <span className="text-xs sm:text-base text-gray-600">({product.reviews} reviews)</span>
                         </div>
                         <p className="text-sm sm:text-lg text-gray-700 mb-2 sm:mb-4 font-medium line-clamp-1">{product.category}</p>
                         <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-                          <span className="text-emerald-600 font-bold text-lg sm:text-xl lg:text-2xl">PKR {product.price}</span>
+                          <span className="text-emerald-600 font-bold text-lg sm:text-xl lg:text-2xl">PKR {product.newPrice}</span>
                           {product.isSale && (
-                            <span className="text-gray-500 line-through text-sm sm:text-lg lg:text-xl font-medium">PKR {product.originalPrice}</span>
+                            <span className="text-gray-500 line-through text-sm sm:text-lg lg:text-xl font-medium">PKR {product.oldPrice}</span>
                           )}
                         </div>
                       </div>
@@ -557,11 +506,11 @@ export default function Shop() {
 
         {/* Quick View Modal */}
         {showQuickView && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+          <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-xl max-w-full w-full h-full sm:max-w-2xl sm:h-auto overflow-y-auto">
               <div className="p-6">
                 <div className="flex justify-between items-start mb-4">
-                  <h2 className="text-2xl font-bold">Quick View</h2>
+                  <h2 className="text-2xl font-bold text-black">Quick View</h2>
                   <button
                     onClick={() => setShowQuickView(null)}
                     className="text-gray-500 hover:text-gray-700 text-2xl"
@@ -570,50 +519,121 @@ export default function Shop() {
                   </button>
                 </div>
                 {(() => {
-                  const product = products.find(p => p.id === showQuickView);
+                  const product = products.find(p => p.id.toString() === showQuickView);
                   if (!product) return null;
+                  const shortDesc = product.description.length > 80 ? product.description.slice(0, 80) + '...' : product.description;
                   return (
-                    <div className="flex flex-col md:flex-row gap-6">
-                      <div className="w-full md:w-1/2">
-                        <div className="w-full h-64 relative">
-                          <Image src={product.image} alt={product.name} fill className="object-cover rounded-lg" />
+                    <div className="flex flex-col md:flex-row gap-4 p-2 sm:gap-8 sm:p-8 w-full max-w-full">
+                      <div className="w-full md:w-1/2 flex flex-col items-center">
+                        <div className="relative w-full h-56 md:h-72 rounded-xl overflow-hidden shadow-lg mb-3 bg-gradient-to-br from-emerald-100 to-emerald-50">
+                          <Image src={product.images[quickViewSlide]} alt={product.title} fill className="object-cover object-center w-full h-full transition-all duration-700" />
+                          {/* Arrows */}
+                          <button onClick={() => setQuickViewSlide((quickViewSlide - 1 + product.images.length) % product.images.length)} className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-emerald-200 text-emerald-700 rounded-full p-2 shadow-lg z-10">
+                            &#8592;
+                          </button>
+                          <button onClick={() => setQuickViewSlide((quickViewSlide + 1) % product.images.length)} className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-emerald-200 text-emerald-700 rounded-full p-2 shadow-lg z-10">
+                            &#8594;
+                          </button>
+                          {/* Dots */}
+                          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+                            {product.images.map((_, idx) => (
+                              <button
+                                key={idx}
+                                className={`w-2.5 h-2.5 rounded-full border-2 border-emerald-300 bg-white/80 transition-all ${quickViewSlide === idx ? "bg-emerald-600 border-emerald-600 scale-110" : ""}`}
+                                onClick={() => setQuickViewSlide(idx)}
+                                aria-label={`Go to image ${idx + 1}`}
+                              />
+                            ))}
+                          </div>
                         </div>
                       </div>
-                      <div className="w-full md:w-1/2">
-                        <h3 className="text-xl font-bold mb-2">{product.name}</h3>
-                        <div className="flex items-center gap-1 mb-2">
-                          <StarIcon className="w-4 h-4 text-yellow-400 fill-current" />
-                          <span className="text-sm text-gray-600">{product.rating} ({product.reviews} reviews)</span>
+                      <div className="w-full md:w-1/2 flex flex-col gap-2">
+                        <h3 className="text-2xl font-extrabold text-emerald-900 mb-1 text-black">{product.title}</h3>
+                        <div className="flex items-center gap-2 mb-1">
+                          <StarIcon className="w-5 h-5 text-yellow-400 fill-current" />
+                          <span className="text-base font-semibold text-gray-800">{product.reviewStars}</span>
+                          <span className="text-sm text-gray-500">({product.reviews} reviews)</span>
                         </div>
-                        <p className="text-gray-600 mb-4">{product.category}</p>
-                        <div className="flex items-center gap-2 mb-4">
-                          <span className="text-emerald-600 font-bold text-2xl">PKR {product.price}</span>
+                        <span className="text-emerald-700 font-semibold text-base mb-1 text-black">{product.category}</span>
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-emerald-600 font-bold text-2xl">PKR {product.newPrice}</span>
                           {product.isSale && (
-                            <span className="text-gray-400 line-through">PKR {product.originalPrice}</span>
+                            <span className="text-gray-400 line-through text-lg font-medium">PKR {product.oldPrice}</span>
                           )}
+                          <span className="ml-2 text-gray-600">{product.quantityUnit}</span>
                         </div>
-                        <div className="flex gap-2">
+                        {product.variants && product.variants.length > 0 && (
+                          <div className="mb-2">
+                            <span className="font-semibold mr-2 text-emerald-800">Variant:</span>
+                            <select className="border rounded px-2 py-1">
+                              {product.variants.map(v => <option key={v} value={v}>{v}</option>)}
+                            </select>
+                          </div>
+                        )}
+                        <div className="mb-2">
+                          <h4 className="font-semibold text-emerald-800">Description</h4>
+                          <p className="text-gray-700 text-base line-clamp-2">
+                            {shortDesc}
+                            {product.description.length > 80 && (
+                              <button onClick={() => router.push(`/shop/${product.slug}`)} className="ml-2 text-emerald-600 hover:underline font-semibold">Read more</button>
+                            )}
+                          </p>
+                        </div>
+                        <div className="mb-4">
+                          <h4 className="font-semibold text-emerald-800">Health Benefits</h4>
+                          <p className="text-gray-700 text-base">{product.healthBenefits}</p>
+                        </div>
+                        <div className="flex gap-3 mb-2">
                           <button
                             onClick={() => addToCart(product.id)}
-                            className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-lg font-semibold"
+                            className="flex-1 bg-gradient-to-r from-emerald-500 to-emerald-700 hover:from-emerald-600 hover:to-emerald-800 text-white py-3 rounded-xl font-bold text-lg shadow-lg transition-all"
                           >
                             Add to Cart
                           </button>
                           <button
-                            onClick={() => toggleWishlist(product.id)}
-                            className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                            onClick={() => { addToCart(product.id); window.location.href = '/checkout'; }}
+                            className="flex-1 bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 text-white py-3 rounded-xl font-bold text-lg shadow-lg transition-all"
                           >
-                            {wishlist.includes(product.id) ? (
-                              <HeartSolidIcon className="w-5 h-5 text-red-500" />
-                            ) : (
-                              <HeartIcon className="w-5 h-5 text-gray-600" />
-                            )}
+                            Buy Now
                           </button>
                         </div>
+                        <button
+                          onClick={() => router.push(`/shop/${product.slug}`)}
+                          className="w-full mt-2 bg-gray-100 hover:bg-emerald-100 text-emerald-900 py-3 rounded-xl font-bold text-lg transition-all shadow"
+                        >
+                          View Details
+                        </button>
                       </div>
                     </div>
                   );
                 })()}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Mobile Filter Sliding Panel */}
+        {mobileFilterOpen && (
+          <div className="fixed inset-0 z-50 flex">
+            <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setMobileFilterOpen(false)} />
+            <div className="relative bg-white w-64 max-w-full h-full shadow-xl p-6">
+              <button className="absolute top-2 right-2 text-gray-500" onClick={() => setMobileFilterOpen(false)}>&times;</button>
+              <h3 className="font-bold text-xl mb-6 flex items-center gap-3 text-gray-900">
+                <FunnelIcon className="w-6 h-6 text-emerald-600" /> Filters
+              </h3>
+              <div className="mb-8">
+                <h4 className="font-bold text-lg mb-4 text-gray-900">Categories</h4>
+                <div className="space-y-2">
+                  {CATEGORIES.map((category) => (
+                    <button
+                      key={category}
+                      onClick={() => { setSelectedCategory(category); setMobileFilterOpen(false); }}
+                      className={`block w-full text-left px-4 py-3 rounded-xl transition-all font-medium ${selectedCategory === category ? "bg-emerald-600 text-white shadow-lg" : "text-gray-800 hover:bg-gray-100 hover:text-emerald-600"}`}
+                    >
+                      {category}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
