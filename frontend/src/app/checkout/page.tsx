@@ -6,7 +6,6 @@ import {
   CreditCardIcon,
   TruckIcon,
   CheckCircleIcon,
-  ArrowLeftIcon,
   LockClosedIcon,
   ShoppingBagIcon,
   BanknotesIcon,
@@ -144,9 +143,9 @@ export default function Checkout() {
       sessionStorage.setItem('lastOrderNumber', result.orderNumber);
       
       setStep(4);
-    } catch (error: any) {
+    } catch (error) {
       console.error('Order placement error:', error);
-      alert(error.message || 'Failed to place order. Please try again.');
+      alert(error instanceof Error ? error.message : 'Failed to place order. Please try again.');
     } finally {
       setLoading(false);
     }

@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Create order items
-    const orderItems = items.map((item: any) => ({
+    const orderItems = items.map((item: {id: number; name: string; image: string; category: string; price: number; quantity: number}) => ({
       order_id: order.id,
       product_id: item.id,
       product_name: item.name,
@@ -141,10 +141,10 @@ export async function POST(request: NextRequest) {
       message: 'Order placed successfully',
     });
 
-  } catch (error: any) {
+  } catch (error) {
     console.error('Order API error:', error);
     return NextResponse.json(
-      { error: 'Internal server error', details: error.message },
+      { error: 'Internal server error', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     );
   }
@@ -195,7 +195,7 @@ export async function GET(request: NextRequest) {
       count: orders?.length || 0,
     });
 
-  } catch (error: any) {
+  } catch (error) {
     console.error('Orders GET error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },

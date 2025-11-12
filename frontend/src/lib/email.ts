@@ -135,9 +135,9 @@ export async function sendOrderConfirmationEmail(data: OrderEmailData) {
     }
 
     return { success: true, data: emailData };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Email service error:', error);
-    return { success: false, error: error.message };
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
   }
 }
 
@@ -189,9 +189,9 @@ export async function sendAdminNotificationEmail(data: OrderEmailData) {
     });
 
     return { success: true };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Admin notification error:', error);
-    return { success: false, error: error.message };
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
   }
 }
 

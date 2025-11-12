@@ -67,6 +67,7 @@ export default function AdminOrders() {
     }
 
     fetchOrders();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
   const fetchOrders = async () => {

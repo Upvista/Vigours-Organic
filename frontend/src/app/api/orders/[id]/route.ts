@@ -40,7 +40,7 @@ export async function GET(
       order,
     });
 
-  } catch (error: any) {
+  } catch (error) {
     console.error('Order GET error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
@@ -66,7 +66,7 @@ export async function PATCH(
 
     const supabase = getServerSupabase();
     
-    const updateData: any = {};
+    const updateData: Record<string, string> = {};
     if (order_status) updateData.order_status = order_status;
     if (payment_status) updateData.payment_status = payment_status;
     if (notes !== undefined) updateData.notes = notes;
@@ -92,7 +92,7 @@ export async function PATCH(
       message: 'Order updated successfully',
     });
 
-  } catch (error: any) {
+  } catch (error) {
     console.error('Order PATCH error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
@@ -133,7 +133,7 @@ export async function DELETE(
       message: 'Order deleted successfully',
     });
 
-  } catch (error: any) {
+  } catch (error) {
     console.error('Order DELETE error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
